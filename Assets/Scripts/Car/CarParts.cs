@@ -1,6 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class CarParts : MonoBehaviour {
+
+	/**
+	 * Collections:
+	 */
+	public Rigidbody2D[] TiresSteering { get; private set; }
+	public Rigidbody2D[] TiresPowered { get; private set; }
+	public Rigidbody2D ChassisBody { get; private set; }
+	public Rigidbody2D CannonBody { get; private set; }
+	public Slider HealthSlider { get; private set; }
+
+	public BoxCollider2D[] BoxColliders2D { get; private set; }
+	public SpriteRenderer[] SpriteRenderers { get; private set; }
 
 	private GameObject TireFrontRightGameObject;
 	private GameObject TireFrontLeftGameObject;
@@ -16,8 +29,6 @@ public class CarParts : MonoBehaviour {
 	 */
 	private Rigidbody2D TireFrontRightBody;
 	private Rigidbody2D TireFrontLeftBody;
-	public Rigidbody2D ChassisBody { get; private set; }
-	public Rigidbody2D CannonBody { get; private set; }
 
 	// private Rigidbody2D TireRearRightBody;
 	// private Rigidbody2D TireRearLeftBody;
@@ -38,14 +49,6 @@ public class CarParts : MonoBehaviour {
 	private SpriteRenderer RoofRenderer;
 	private SpriteRenderer CannonRenderer;
 
-	/**
-	 * Collections:
-	 */
-	public Rigidbody2D[] TiresSteering { get; private set; }
-	public Rigidbody2D[] TiresPowered { get; private set; }
-	public SpriteRenderer[] SpriteRenderers { get; private set; }
-	public BoxCollider2D[] BoxColliders2D { get; private set; }
-
 	/// <summary>
 	/// Awake is called when the script instance is being loaded.
 	/// </summary>
@@ -57,8 +60,9 @@ public class CarParts : MonoBehaviour {
 		InitializeBoxColliders2D();
 		InitializeSpriteRenderers();
 
-		InitializeCollections();
+		HealthSlider = GetComponentInChildren<Slider>();
 
+		InitializeCollections();
 	}
 
 	private void GetGameObjects(Transform parent)

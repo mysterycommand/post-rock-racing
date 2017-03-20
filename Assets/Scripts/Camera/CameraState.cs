@@ -3,21 +3,20 @@
 [ExecuteInEditMode]
 public class CameraState : MonoBehaviour {
 
+	public float PosX { get; set; }
+	public float PosY { get; set; }
+	public float Size { get; set; }
+
 	[SerializeField] private float Damping = 0.2f;
 	[SerializeField] private float EdgeBuffer = 5f;
 	[SerializeField] private float MinSize = 5f;
 
 	private Camera MainCamera;
 	private ParticleSystem MainParticleSystem;
-
 	private Vector3 CameraPositionVelocity = Vector3.zero;
 	private Vector3 ParticleSystemPositionVelocity = Vector3.zero;
 	private float CameraSizeVelocity = 0f;
 	private Vector3 ParticleSystemBoxVelocity = Vector3.zero;
-
-	public float PosX { get; set; }
-	public float PosY { get; set; }
-	public float Size { get; set; }
 
 	/// <summary>
 	/// Start is called on the frame when a script is enabled just before

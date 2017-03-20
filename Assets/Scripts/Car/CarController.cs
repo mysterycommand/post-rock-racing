@@ -46,9 +46,29 @@ public class CarController : MonoBehaviour {
 		carState.CannonAngle = rightStickAngle - 90f;
 	}
 
+	/// <summary>
+	/// Sent when an incoming collider makes contact with this object's
+	/// collider (2D physics only).
+	/// </summary>
+	/// <param name="other">The Collision2D data associated with this collision.</param>
+	void OnCollisionEnter2D(Collision2D other)
+	{
+		if (other.gameObject.CompareTag("TireFrontRight")
+		|| other.gameObject.CompareTag("TireFrontLeft")
+		|| other.gameObject.CompareTag("TireRearRight")
+		|| other.gameObject.CompareTag("TireRearLeft")
+		|| other.gameObject.CompareTag("Chassis")) {
+			other.gameObject.GetComponentInParent<CarState>().CarHealth -= 2f;
+			carState.CarHealth -= 1f;
+		}
+	}
+
 	private float NormalizeTrigger(float value)
 	{
-		if (value == 0f) { return value; }
+		if (value == 0f) {
+			return value;
+		}
+
 		return (value + 1f) / 2f;
 	}
 

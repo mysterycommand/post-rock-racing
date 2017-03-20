@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof (CarParts))]
@@ -12,6 +13,11 @@ public class CarState : MonoBehaviour {
 	public bool IsAiming { get; set; }
 	public float CannonAngle { get; set; }
 	public Color CarColor { get; set; }
+	public float CarHealth { get; set; }
+
+	[SerializeField] private float MaxCarHealth = 100f;
+	[SerializeField] private Color FullHealthColor = new Color(0f, 1f, 0f, (2f / 3f));
+	[SerializeField] private Color ZeroHealthColor = new Color(1f, 0f, 0f, (2f / 3f));
 
 	private CarParts carParts;
 
@@ -55,6 +61,13 @@ public class CarState : MonoBehaviour {
 				carParts.ChassisBody.rotation,
 			0.1f
 		);
+
+		carParts.HealthSlider.value = CarHealth;
+		carParts.HealthSlider.GetComponentsInChildren<Image>()[1].color = Color.Lerp(
+			ZeroHealthColor,
+			FullHealthColor,
+			CarHealth / MaxCarHealth
+		);
 	}
 
 	private void InitializeSingleValues()
@@ -66,6 +79,8 @@ public class CarState : MonoBehaviour {
 		CannonAngle = 0f;
 
 		CarColor = Color.HSVToRGB(Random.value, 0.7f, 0.7f);
+
+		CarHealth = MaxCarHealth;
 	}
 
 }
