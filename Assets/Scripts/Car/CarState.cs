@@ -145,7 +145,7 @@ public class CarState : MonoBehaviour {
 		TireFrontLeftBody = TireFrontLeftGameObject.GetComponent<Rigidbody2D>();
 		// TireRearRightBody = TireRearRightGameObject.GetComponent<Rigidbody2D>();
 		// TireRearLeftBody = TireRearLeftGameObject.GetComponent<Rigidbody2D>();
-		ChassisBody = ChassisGameObject.GetComponent<Rigidbody2D>();
+		ChassisBody = gameObject.GetComponent<Rigidbody2D>();
 		CannonBody = CannonGameObject.GetComponent<Rigidbody2D>();
 	}
 
