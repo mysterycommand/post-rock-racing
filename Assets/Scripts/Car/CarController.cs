@@ -58,8 +58,8 @@ public class CarController : MonoBehaviour {
 		|| other.gameObject.CompareTag("TireRearRight")
 		|| other.gameObject.CompareTag("TireRearLeft")
 		|| other.gameObject.CompareTag("Chassis")) {
-			other.gameObject.GetComponentInParent<CarState>().CarHealth -= 2f;
-			carState.CarHealth -= 1f;
+			other.gameObject.GetComponentInParent<CarState>().CarHealth -= other.relativeVelocity.magnitude;
+			carState.CarHealth -= other.relativeVelocity.magnitude;
 		}
 	}
 
