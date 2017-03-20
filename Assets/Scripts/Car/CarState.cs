@@ -17,8 +17,8 @@ public class CarState : MonoBehaviour {
 
 	[SerializeField] private float MaxCarHealth = 100f;
 
-	[SerializeField] private Color ZeroHealthColor = new Color(0f, 0f, 0f, (1f / 3f));
-
+	private Color ZeroHealthColor;
+	private Color FullHealthColor;
 	private CarParts carParts;
 
 	/// <summary>
@@ -65,7 +65,7 @@ public class CarState : MonoBehaviour {
 		carParts.HealthSlider.value = CarHealth;
 		carParts.HealthSlider.GetComponentsInChildren<Image>()[1].color = Color.Lerp(
 			ZeroHealthColor,
-			CarColor,
+			FullHealthColor,
 			CarHealth / MaxCarHealth
 		);
 	}
@@ -78,7 +78,14 @@ public class CarState : MonoBehaviour {
 		IsAiming = false;
 		CannonAngle = 0f;
 
-		CarColor = Color.HSVToRGB(Random.value, 0.7f, 0.7f);
+		float hue = Random.value;
+		CarColor = Color.HSVToRGB(hue, 0.7f, 0.7f);
+
+		Color tempFull = Color.HSVToRGB(hue, 0.5f, 0.5f);
+		FullHealthColor = new Color(tempFull.r, tempFull.g, tempFull.b, 0.5f);
+
+		Color tempZero = Color.HSVToRGB(hue, 0.3f, 0.3f);
+		ZeroHealthColor = new Color(tempZero.r, tempZero.g, tempZero.b, 0.5f);
 
 		CarHealth = MaxCarHealth;
 	}
