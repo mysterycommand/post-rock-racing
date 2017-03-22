@@ -58,7 +58,10 @@ public class CarController : MonoBehaviour {
 	/// <param name="other">The Collision2D data associated with this collision.</param>
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.CompareTag("TireFrontRight")
+		if (other.gameObject.CompareTag("Bullet")) {
+			carState.CarHealth -= other.relativeVelocity.magnitude / 2f;
+			Destroy(other.gameObject);
+		} else if (other.gameObject.CompareTag("TireFrontRight")
 		|| other.gameObject.CompareTag("TireFrontLeft")
 		|| other.gameObject.CompareTag("TireRearRight")
 		|| other.gameObject.CompareTag("TireRearLeft")

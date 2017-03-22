@@ -32,7 +32,6 @@ public class CarState : MonoBehaviour {
 	void Awake()
 	{
 		carParts = GetComponent<CarParts>();
-		InitializeSingleValues();
 	}
 
 	/// <summary>
@@ -41,6 +40,7 @@ public class CarState : MonoBehaviour {
 	/// </summary>
 	void Start()
 	{
+		InitializeSingleValues();
 		foreach (SpriteRenderer renderer in carParts.SpriteRenderers) {
 			renderer.color = CarColor;
 		}
@@ -93,13 +93,13 @@ public class CarState : MonoBehaviour {
 		IsAiming = false;
 		CannonAngle = 0f;
 
-		float hue = Random.value;
-		CarColor = Color.HSVToRGB(hue, 0.7f, 0.7f);
+		float h, s, v;
+		Color.RGBToHSV(CarColor, out h, out s, out v);
 
-		Color tempFull = Color.HSVToRGB(hue, 0.5f, 0.5f);
+		Color tempFull = Color.HSVToRGB(h, 0.7f, 0.5f);
 		FullHealthColor = new Color(tempFull.r, tempFull.g, tempFull.b, 0.5f);
 
-		Color tempZero = Color.HSVToRGB(hue, 0.3f, 0.3f);
+		Color tempZero = Color.HSVToRGB(h, 0.7f, 0.3f);
 		ZeroHealthColor = new Color(tempZero.r, tempZero.g, tempZero.b, 0.5f);
 
 		CarHealth = MaxCarHealth;
