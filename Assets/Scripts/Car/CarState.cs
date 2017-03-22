@@ -99,6 +99,7 @@ public class CarState : MonoBehaviour {
 		bulletRenderer.color = CarColor;
 
 		bulletBody.velocity = carParts.BulletSpawnTransform.up * 40f;
+		carParts.CannonBody.AddForce(carParts.CannonBody.transform.up * -2000f);
 
 		CanFire = false;
 		yield return new WaitForSeconds(1f / RateOfFire);
