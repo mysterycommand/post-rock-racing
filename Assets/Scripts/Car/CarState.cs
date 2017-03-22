@@ -12,9 +12,14 @@ public class CarState : MonoBehaviour {
 	public float TiresPoweredForce { get; set; }
 	public bool IsAiming { get; set; }
 	public float CannonAngle { get; set; }
-	public Color CarColor { get; set; }
-	public float CarHealth { get; set; }
+	public bool IsFiring { get; set; }
+	public float RateOfFire { get; set; }
 
+	public float CarHealth { get; set; }
+	public Color CarColor { get; private set; }
+
+	[SerializeField] private float MinRateOfFire = 1f; // per second
+	[SerializeField] private float MaxRateOfFire = 10f; // per second
 	[SerializeField] private float MaxCarHealth = 100f;
 
 	private Color ZeroHealthColor;

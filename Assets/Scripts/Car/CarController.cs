@@ -29,21 +29,27 @@ public class CarController : MonoBehaviour {
 	void Update()
 	{
 		float leftStickX = Input.GetAxis($"LeftStickX{PlayerNumber}");
-		carState.TiresSteeringAngle = leftStickX * -MaxTireAngle;
 
 		float leftTrigger = Input.GetAxis($"LeftTrigger{PlayerNumber}");
 		bool leftBumper = Input.GetButton($"LeftBumper{PlayerNumber}");
-		carState.TiresPoweredForce = NormalizeTrigger(leftTrigger) * MaxTireForce;
-		if (leftBumper) {
-			carState.TiresPoweredForce -= MaxTireForce / 3;
-		}
 
 		float rightStickY = Input.GetAxis($"RightStickY{PlayerNumber}");
 		float rightStickX = Input.GetAxis($"RightStickX{PlayerNumber}");
 		float rightStickAngle = Mathf.Atan2(rightStickY, rightStickX) * Mathf.Rad2Deg;
 
+		float rightTrigger = Input.GetAxis($"RightTrigger{PlayerNumber}");
+
+		carState.TiresSteeringAngle = leftStickX * -MaxTireAngle;
+
+		carState.TiresPoweredForce = NormalizeTrigger(leftTrigger) * MaxTireForce;
+		if (leftBumper) {
+			carState.TiresPoweredForce -= MaxTireForce / 3;
+		}
+
 		carState.IsAiming = !(rightStickX == 0f && rightStickY == 0f);
 		carState.CannonAngle = rightStickAngle - 90f;
+
+		carState.IsFiring = rightTrigger > 0f;
 	}
 
 	/// <summary>

@@ -16,14 +16,15 @@ public class CarParts : MonoBehaviour {
 	public BoxCollider2D[] BoxColliders2D { get; private set; }
 	public SpriteRenderer[] SpriteRenderers { get; private set; }
 
-	private GameObject TireFrontRightGameObject;
-	private GameObject TireFrontLeftGameObject;
-	private GameObject TireRearRightGameObject;
-	private GameObject TireRearLeftGameObject;
-	private GameObject ChassisGameObject;
-	private GameObject HoodGameObject;
-	private GameObject RoofGameObject;
-	private GameObject CannonGameObject;
+	[SerializeField] private GameObject TireFrontRightGameObject;
+	[SerializeField] private GameObject TireFrontLeftGameObject;
+	[SerializeField] private GameObject TireRearRightGameObject;
+	[SerializeField] private GameObject TireRearLeftGameObject;
+	[SerializeField] private GameObject ChassisGameObject;
+	[SerializeField] private GameObject HoodGameObject;
+	[SerializeField] private GameObject RoofGameObject;
+	[SerializeField] private GameObject CannonGameObject;
+	[SerializeField] private Transform BulletSpawnTransform;
 
 	/**
 	 * Rigidbodies 2D:
@@ -55,8 +56,6 @@ public class CarParts : MonoBehaviour {
 	/// </summary>
 	void Awake()
 	{
-		GetGameObjects(transform);
-
 		InitializeRigidbodies2D();
 		InitializeBoxColliders2D();
 		InitializeSpriteRenderers();
@@ -64,47 +63,6 @@ public class CarParts : MonoBehaviour {
 		HealthSlider = GetComponentInChildren<Slider>();
 
 		InitializeCollections();
-	}
-
-	private void GetGameObjects(Transform parent)
-	{
-		foreach (Transform child in parent) {
-			if (child.childCount > 0) {
-				GetGameObjects(child);
-			}
-
-			if (child.gameObject.CompareTag("TireFrontRight")) {
-				TireFrontRightGameObject = child.gameObject;
-			}
-
-			if (child.gameObject.CompareTag("TireFrontLeft")) {
-				TireFrontLeftGameObject = child.gameObject;
-			}
-
-			if (child.gameObject.CompareTag("TireRearRight")) {
-				TireRearRightGameObject = child.gameObject;
-			}
-
-			if (child.gameObject.CompareTag("TireRearLeft")) {
-				TireRearLeftGameObject = child.gameObject;
-			}
-
-			if (child.gameObject.CompareTag("Chassis")) {
-				ChassisGameObject = child.gameObject;
-			}
-
-			if (child.gameObject.CompareTag("Hood")) {
-				HoodGameObject = child.gameObject;
-			}
-
-			if (child.gameObject.CompareTag("Roof")) {
-				RoofGameObject = child.gameObject;
-			}
-
-			if (child.gameObject.CompareTag("Cannon")) {
-				CannonGameObject = child.gameObject;
-			}
-		}
 	}
 
 	private void InitializeRigidbodies2D()
