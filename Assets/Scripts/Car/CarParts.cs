@@ -24,7 +24,12 @@ public class CarParts : MonoBehaviour {
 	[SerializeField] private GameObject HoodGameObject;
 	[SerializeField] private GameObject RoofGameObject;
 	[SerializeField] private GameObject CannonGameObject;
-	[SerializeField] private Transform BulletSpawnTransform;
+
+	[SpaceAttribute(8f)]
+	[HeaderAttribute("Bullets:")]
+	[SpaceAttribute(2f)]
+	[SerializeField] public GameObject BulletGameObject;
+	[SerializeField] public Transform BulletSpawnTransform;
 
 	/**
 	 * Rigidbodies 2D:

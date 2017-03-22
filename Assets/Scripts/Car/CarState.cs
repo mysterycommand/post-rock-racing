@@ -18,8 +18,8 @@ public class CarState : MonoBehaviour {
 	public float CarHealth { get; set; }
 	public Color CarColor { get; private set; }
 
-	[SerializeField] private float MinRateOfFire = 1f; // per second
-	[SerializeField] private float MaxRateOfFire = 10f; // per second
+	// [SerializeField] private float MinRateOfFire = 1f; // per second
+	// [SerializeField] private float MaxRateOfFire = 10f; // per second
 	[SerializeField] private float MaxCarHealth = 100f;
 
 	private Color ZeroHealthColor;
@@ -73,6 +73,16 @@ public class CarState : MonoBehaviour {
 			FullHealthColor,
 			CarHealth / MaxCarHealth
 		);
+
+		if (IsFiring) {
+			Rigidbody2D bullet = Instantiate(
+				carParts.BulletGameObject,
+				carParts.BulletSpawnTransform.position,
+				carParts.BulletSpawnTransform.rotation
+			).GetComponent<Rigidbody2D>();
+
+			bullet.velocity = carParts.BulletSpawnTransform.up * 100f;
+		}
 	}
 
 	private void InitializeSingleValues()
