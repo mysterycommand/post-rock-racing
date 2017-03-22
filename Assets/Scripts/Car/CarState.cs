@@ -96,7 +96,7 @@ public class CarState : MonoBehaviour {
 		bulletCollider.gameObject.layer =
 		carParts.BoxColliders2D[0].gameObject.layer;
 
-		bulletRenderer.color = CarColor;
+		bulletRenderer.color = Color.black;
 
 		bulletBody.velocity = carParts.BulletSpawnTransform.up * 40f;
 		carParts.CannonBody.AddForce(carParts.CannonBody.transform.up * -2000f);
