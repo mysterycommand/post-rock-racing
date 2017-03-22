@@ -24,7 +24,7 @@ public class CarState : MonoBehaviour {
 
 	private Color ZeroHealthColor;
 	private Color FullHealthColor;
-	private CarParts carParts;
+	public CarParts carParts { get; private set; }
 
 	/// <summary>
 	/// Awake is called when the script instance is being loaded.
@@ -80,8 +80,13 @@ public class CarState : MonoBehaviour {
 				carParts.BulletSpawnTransform.position,
 				carParts.BulletSpawnTransform.rotation
 			);
-			bullet.layer = carParts.BoxColliders2D[0].gameObject.layer;
 			Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
+			PolygonCollider2D bulletCollider = bullet.GetComponentInChildren<PolygonCollider2D>();
+
+			bullet.layer =
+			bulletBody.gameObject.layer =
+			bulletCollider.gameObject.layer =
+			carParts.BoxColliders2D[0].gameObject.layer;
 
 			bulletBody.velocity = carParts.BulletSpawnTransform.up * 100f;
 		}

@@ -17,9 +17,11 @@ public class CarController : MonoBehaviour {
 	{
 		carState = GetComponent<CarState>();
 
-		foreach (BoxCollider2D collider in GetComponentsInChildren<BoxCollider2D>()) {
-			collider.gameObject.layer = LayerMask.NameToLayer($"Colliders{PlayerNumber}");
+		int layerIndex = LayerMask.NameToLayer($"Colliders{PlayerNumber}");
+		foreach (BoxCollider2D collider in carState.carParts.BoxColliders2D) {
+			collider.gameObject.layer = layerIndex;
 		}
+		gameObject.layer = layerIndex;
 	}
 
 	/// <summary>
@@ -58,6 +60,11 @@ public class CarController : MonoBehaviour {
 	/// <param name="other">The Collision2D data associated with this collision.</param>
 	void OnCollisionEnter2D(Collision2D other)
 	{
+		Debug.Log(other.gameObject);
+		if (LayerMask.LayerToName(gameObject.layer) == "Default") {
+			Debug.Log(gameObject);
+		}
+
 		if (
 			other.gameObject.CompareTag("Bullet") &&
 			other.gameObject.layer != LayerMask.NameToLayer($"Colliders{PlayerNumber}")
@@ -73,6 +80,10 @@ public class CarController : MonoBehaviour {
 		) {
 			other.gameObject.GetComponentInParent<CarState>().CarHealth -= other.relativeVelocity.magnitude;
 			carState.CarHealth -= other.relativeVelocity.magnitude;
+		}
+
+		if (carState.CarHealth <= 0f) {
+			gameObject.SetActive(false);
 		}
 	}
 
