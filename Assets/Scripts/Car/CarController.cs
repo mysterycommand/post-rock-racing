@@ -3,8 +3,7 @@
 [RequireComponent(typeof (CarState))]
 public class CarController : MonoBehaviour {
 
-	[Range(1,2)]
-	[SerializeField] private int PlayerNumber = 1;
+	[HideInInspector] public int PlayerNumber;
 	[SerializeField] private float MaxTireAngle = 65f;
 	[SerializeField] private float MaxTireForce = 1000f;
 

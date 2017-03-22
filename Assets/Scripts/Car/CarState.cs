@@ -16,7 +16,7 @@ public class CarState : MonoBehaviour {
 	public float RateOfFire { get; set; }
 
 	public float CarHealth { get; set; }
-	public Color CarColor { get; private set; }
+	[HideInInspector] public Color CarColor;
 
 	// [SerializeField] private float MinRateOfFire = 1f; // per second
 	// [SerializeField] private float MaxRateOfFire = 10f; // per second
