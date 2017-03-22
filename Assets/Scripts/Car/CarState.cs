@@ -75,7 +75,7 @@ public class CarState : MonoBehaviour {
 			CarHealth / MaxCarHealth
 		);
 
-		if (CanFire && RateOfFire > MinRateOfFire) {
+		if (CanFire && RateOfFire != 0f) {
 			StartCoroutine(Fire());
 		}
 	}
@@ -98,7 +98,7 @@ public class CarState : MonoBehaviour {
 
 		bulletRenderer.color = CarColor;
 
-		bulletBody.velocity = carParts.BulletSpawnTransform.up * 100f;
+		bulletBody.velocity = carParts.BulletSpawnTransform.up * 40f;
 
 		CanFire = false;
 		yield return new WaitForSeconds(1f / RateOfFire);
@@ -123,9 +123,7 @@ public class CarState : MonoBehaviour {
 		ZeroHealthColor = new Color(tempZero.r, tempZero.g, tempZero.b, 0.5f);
 
 		CarHealth = MaxCarHealth;
-		MinRateOfFire = 0f; // per second
- 		MaxRateOfFire = 5f; // per second
-		RateOfFire = MinRateOfFire;
+		RateOfFire = 0f;
 	}
 
 }

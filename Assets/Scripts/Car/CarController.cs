@@ -50,11 +50,7 @@ public class CarController : MonoBehaviour {
 		carState.IsAiming = !(rightStickX == 0f && rightStickY == 0f);
 		carState.CannonAngle = rightStickAngle - 90f;
 
-		carState.RateOfFire = Mathf.Lerp(
-			carState.MinRateOfFire,
-			carState.MaxRateOfFire,
-			NormalizeTrigger(rightTrigger)
-		);
+		carState.RateOfFire = NormalizeTrigger(rightTrigger) > 0f ? 8f : 0f;
 	}
 
 	/// <summary>
@@ -68,7 +64,7 @@ public class CarController : MonoBehaviour {
 			other.gameObject.CompareTag("Bullet") &&
 			other.gameObject.layer != LayerMask.NameToLayer($"Colliders{PlayerNumber}")
 		) {
-			carState.CarHealth -= other.relativeVelocity.magnitude / 20f;
+			carState.CarHealth -= other.relativeVelocity.magnitude / 8f;
 			Destroy(other.gameObject);
 		} else if (
 			other.gameObject.CompareTag("TireFrontRight") ||
