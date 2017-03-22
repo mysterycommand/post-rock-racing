@@ -110,6 +110,10 @@ public class GameManager : MonoBehaviour {
         Winner = GetWinner();
 
         if (Winner != null) {
+            foreach (GameObject bullet in GameObject.FindGameObjectsWithTag("Bullet")) {
+                Destroy(bullet);
+            }
+
             string playerColor = ColorUtility.ToHtmlStringRGB(Winner.PlayerColor);
             MessageText.text = $@"
 <size=8><color=#{playerColor}>player {Winner.PlayerNumber}</color> wins</size>";
