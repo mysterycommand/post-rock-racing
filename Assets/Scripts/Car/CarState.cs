@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -12,14 +13,14 @@ public class CarState : MonoBehaviour {
 	public float TiresPoweredForce { get; set; }
 	public bool IsAiming { get; set; }
 	public float CannonAngle { get; set; }
-	public bool IsFiring { get; set; }
 	public float RateOfFire { get; set; }
+	private bool CanFire = true;
 
 	public float CarHealth { get; set; }
 	[HideInInspector] public Color CarColor;
 
-	// [SerializeField] private float MinRateOfFire = 1f; // per second
-	// [SerializeField] private float MaxRateOfFire = 10f; // per second
+	[SerializeField] public float MinRateOfFire { get; private set; }
+	[SerializeField] public float MaxRateOfFire { get; private set; }
 	[SerializeField] private float MaxCarHealth = 100f;
 
 	private Color ZeroHealthColor;
@@ -74,25 +75,34 @@ public class CarState : MonoBehaviour {
 			CarHealth / MaxCarHealth
 		);
 
-		if (IsFiring) {
-			GameObject bullet = Instantiate(
-				carParts.BulletGameObject,
-				carParts.BulletSpawnTransform.position,
-				carParts.BulletSpawnTransform.rotation
-			);
-			Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
-			PolygonCollider2D bulletCollider = bullet.GetComponentInChildren<PolygonCollider2D>();
-			SpriteRenderer bulletRenderer = bullet.GetComponentInChildren<SpriteRenderer>();
-
-			bullet.layer =
-			bulletBody.gameObject.layer =
-			bulletCollider.gameObject.layer =
-			carParts.BoxColliders2D[0].gameObject.layer;
-
-			bulletRenderer.color = CarColor;
-
-			bulletBody.velocity = carParts.BulletSpawnTransform.up * 100f;
+		if (CanFire && RateOfFire > MinRateOfFire) {
+			StartCoroutine(Fire());
 		}
+	}
+
+	IEnumerator Fire()
+	{
+		GameObject bullet = Instantiate(
+			carParts.BulletGameObject,
+			carParts.BulletSpawnTransform.position,
+			carParts.BulletSpawnTransform.rotation
+		);
+		Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
+		PolygonCollider2D bulletCollider = bullet.GetComponentInChildren<PolygonCollider2D>();
+		SpriteRenderer bulletRenderer = bullet.GetComponentInChildren<SpriteRenderer>();
+
+		bullet.layer =
+		bulletBody.gameObject.layer =
+		bulletCollider.gameObject.layer =
+		carParts.BoxColliders2D[0].gameObject.layer;
+
+		bulletRenderer.color = CarColor;
+
+		bulletBody.velocity = carParts.BulletSpawnTransform.up * 100f;
+
+		CanFire = false;
+		yield return new WaitForSeconds(1f / RateOfFire);
+		CanFire = true;
 	}
 
 	private void InitializeSingleValues()
@@ -113,6 +123,9 @@ public class CarState : MonoBehaviour {
 		ZeroHealthColor = new Color(tempZero.r, tempZero.g, tempZero.b, 0.5f);
 
 		CarHealth = MaxCarHealth;
+		MinRateOfFire = 0f; // per second
+ 		MaxRateOfFire = 5f; // per second
+		RateOfFire = MinRateOfFire;
 	}
 
 }

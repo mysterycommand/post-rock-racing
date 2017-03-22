@@ -50,7 +50,11 @@ public class CarController : MonoBehaviour {
 		carState.IsAiming = !(rightStickX == 0f && rightStickY == 0f);
 		carState.CannonAngle = rightStickAngle - 90f;
 
-		carState.IsFiring = rightTrigger > 0f;
+		carState.RateOfFire = Mathf.Lerp(
+			carState.MinRateOfFire,
+			carState.MaxRateOfFire,
+			NormalizeTrigger(rightTrigger)
+		);
 	}
 
 	/// <summary>
@@ -60,16 +64,11 @@ public class CarController : MonoBehaviour {
 	/// <param name="other">The Collision2D data associated with this collision.</param>
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		Debug.Log(other.gameObject);
-		if (LayerMask.LayerToName(gameObject.layer) == "Default") {
-			Debug.Log(gameObject);
-		}
-
 		if (
 			other.gameObject.CompareTag("Bullet") &&
 			other.gameObject.layer != LayerMask.NameToLayer($"Colliders{PlayerNumber}")
 		) {
-			carState.CarHealth -= other.relativeVelocity.magnitude / 2f;
+			carState.CarHealth -= other.relativeVelocity.magnitude / 20f;
 			Destroy(other.gameObject);
 		} else if (
 			other.gameObject.CompareTag("TireFrontRight") ||
