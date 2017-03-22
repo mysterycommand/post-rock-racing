@@ -82,11 +82,14 @@ public class CarState : MonoBehaviour {
 			);
 			Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
 			PolygonCollider2D bulletCollider = bullet.GetComponentInChildren<PolygonCollider2D>();
+			SpriteRenderer bulletRenderer = bullet.GetComponentInChildren<SpriteRenderer>();
 
 			bullet.layer =
 			bulletBody.gameObject.layer =
 			bulletCollider.gameObject.layer =
 			carParts.BoxColliders2D[0].gameObject.layer;
+
+			bulletRenderer.color = CarColor;
 
 			bulletBody.velocity = carParts.BulletSpawnTransform.up * 100f;
 		}
