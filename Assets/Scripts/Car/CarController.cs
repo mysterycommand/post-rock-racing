@@ -58,14 +58,19 @@ public class CarController : MonoBehaviour {
 	/// <param name="other">The Collision2D data associated with this collision.</param>
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.CompareTag("Bullet")) {
+		if (
+			other.gameObject.CompareTag("Bullet") &&
+			other.gameObject.layer != LayerMask.NameToLayer($"Colliders{PlayerNumber}")
+		) {
 			carState.CarHealth -= other.relativeVelocity.magnitude / 2f;
 			Destroy(other.gameObject);
-		} else if (other.gameObject.CompareTag("TireFrontRight")
-		|| other.gameObject.CompareTag("TireFrontLeft")
-		|| other.gameObject.CompareTag("TireRearRight")
-		|| other.gameObject.CompareTag("TireRearLeft")
-		|| other.gameObject.CompareTag("Chassis")) {
+		} else if (
+			other.gameObject.CompareTag("TireFrontRight") ||
+			other.gameObject.CompareTag("TireFrontLeft") ||
+			other.gameObject.CompareTag("TireRearRight") ||
+			other.gameObject.CompareTag("TireRearLeft") ||
+			other.gameObject.CompareTag("Chassis")
+		) {
 			other.gameObject.GetComponentInParent<CarState>().CarHealth -= other.relativeVelocity.magnitude;
 			carState.CarHealth -= other.relativeVelocity.magnitude;
 		}

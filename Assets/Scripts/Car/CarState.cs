@@ -75,13 +75,15 @@ public class CarState : MonoBehaviour {
 		);
 
 		if (IsFiring) {
-			Rigidbody2D bullet = Instantiate(
+			GameObject bullet = Instantiate(
 				carParts.BulletGameObject,
 				carParts.BulletSpawnTransform.position,
 				carParts.BulletSpawnTransform.rotation
-			).GetComponent<Rigidbody2D>();
+			);
+			bullet.layer = carParts.BoxColliders2D[0].gameObject.layer;
+			Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
 
-			bullet.velocity = carParts.BulletSpawnTransform.up * 100f;
+			bulletBody.velocity = carParts.BulletSpawnTransform.up * 100f;
 		}
 	}
 
