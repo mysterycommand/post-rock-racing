@@ -36,7 +36,9 @@ public class CarParts : MonoBehaviour {
 	[SpaceAttribute(2f)]
 	[SerializeField] public AudioSource EngineSource;
 	[SerializeField] public AudioSource FireSource;
-	[SerializeField] public AudioSource CollideSource;
+	[SerializeField] public AudioSource CollideCarSource;
+	[SerializeField] public AudioSource CollideBulletSource;
+	[SerializeField] public AudioSource ExplodeSource;
 
 	/**
 	 * Rigidbodies 2D:
@@ -73,6 +75,10 @@ public class CarParts : MonoBehaviour {
 		InitializeSpriteRenderers();
 
 		HealthSlider = GetComponentInChildren<Slider>();
+		FireSource.pitch = 1f + Random.Range(-0.2f, 0.2f);
+		CollideCarSource.pitch = 1f + Random.Range(-0.2f, 0.2f);
+		CollideBulletSource.pitch = 1f + Random.Range(-0.2f, 0.2f);
+		ExplodeSource.pitch = 1f + Random.Range(-0.2f, 0.2f);
 
 		InitializeCollections();
 	}

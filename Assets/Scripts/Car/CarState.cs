@@ -9,6 +9,8 @@ public class CarState : MonoBehaviour {
 	/**
 	 * Single Values:
 	 */
+	public float MaxTireAngle = 65f;
+	public float MaxTireForce = 1000f;
 	public float TiresSteeringAngle { get; set; }
 	public float TiresPoweredForce { get; set; }
 	public bool IsAiming { get; set; }
@@ -25,6 +27,7 @@ public class CarState : MonoBehaviour {
 
 	private Color ZeroHealthColor;
 	private Color FullHealthColor;
+	private float EnginePitch;
 	public CarParts carParts { get; private set; }
 
 	/// <summary>
@@ -33,6 +36,7 @@ public class CarState : MonoBehaviour {
 	void Awake()
 	{
 		carParts = GetComponent<CarParts>();
+		EnginePitch = 1f + Random.Range(-0.2f, 0.2f);
 	}
 
 	/// <summary>
@@ -59,6 +63,7 @@ public class CarState : MonoBehaviour {
 		foreach (Rigidbody2D Tire in carParts.TiresPowered) {
 			Tire.AddForce(Tire.transform.up * TiresPoweredForce);
 		}
+		carParts.EngineSource.pitch = Mathf.Lerp(EnginePitch, 3f, TiresPoweredForce / MaxTireForce);
 
 		carParts.CannonBody.rotation = Mathf.LerpAngle(
 			carParts.CannonBody.rotation,
@@ -100,6 +105,8 @@ public class CarState : MonoBehaviour {
 
 		bulletBody.velocity = carParts.BulletSpawnTransform.up * 40f;
 		carParts.CannonBody.AddForce(carParts.CannonBody.transform.up * -2000f);
+
+		carParts.FireSource.Play();
 
 		CanFire = false;
 		yield return new WaitForSeconds(1f / RateOfFire);

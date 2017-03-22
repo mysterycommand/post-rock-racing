@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour {
     {
         Winner = null;
         Winner = GetWinner();
+        Winner.CarInstance.GetComponent<CarParts>().ExplodeSource.Play();
 
         if (Winner != null) {
             foreach (GameObject bullet in GameObject.FindGameObjectsWithTag("Bullet")) {

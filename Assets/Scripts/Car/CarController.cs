@@ -4,8 +4,6 @@
 public class CarController : MonoBehaviour {
 
 	[HideInInspector] public int PlayerNumber;
-	[SerializeField] private float MaxTireAngle = 65f;
-	[SerializeField] private float MaxTireForce = 1000f;
 
 	private CarState carState;
 
@@ -40,11 +38,11 @@ public class CarController : MonoBehaviour {
 
 		float rightTrigger = Input.GetAxis($"RightTrigger{PlayerNumber}");
 
-		carState.TiresSteeringAngle = leftStickX * -MaxTireAngle;
+		carState.TiresSteeringAngle = leftStickX * -carState.MaxTireAngle;
 
-		carState.TiresPoweredForce = NormalizeTrigger(leftTrigger) * MaxTireForce;
+		carState.TiresPoweredForce = NormalizeTrigger(leftTrigger) * carState.MaxTireForce;
 		if (leftBumper) {
-			carState.TiresPoweredForce -= MaxTireForce / 3;
+			carState.TiresPoweredForce -= carState.MaxTireForce / 3;
 		}
 
 		carState.IsAiming = !(rightStickX == 0f && rightStickY == 0f);
@@ -65,6 +63,7 @@ public class CarController : MonoBehaviour {
 			other.gameObject.layer != LayerMask.NameToLayer($"Colliders{PlayerNumber}")
 		) {
 			carState.CarHealth -= other.relativeVelocity.magnitude / 8f;
+			carState.carParts.CollideBulletSource.Play();
 			Destroy(other.gameObject);
 		} else if (
 			other.gameObject.CompareTag("TireFrontRight") ||
@@ -74,6 +73,7 @@ public class CarController : MonoBehaviour {
 			other.gameObject.CompareTag("Chassis")
 		) {
 			other.gameObject.GetComponentInParent<CarState>().CarHealth -= other.relativeVelocity.magnitude;
+			carState.carParts.CollideCarSource.Play();
 			carState.CarHealth -= other.relativeVelocity.magnitude;
 		}
 
