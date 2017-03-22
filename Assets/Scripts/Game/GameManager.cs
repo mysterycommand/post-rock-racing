@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private PlayerManager[] Players = new PlayerManager[2];
 
     private PlayerManager Winner;
+    public bool AnyButtonPressed = false;
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -29,9 +30,12 @@ public class GameManager : MonoBehaviour {
 
         for (int i = 0; i < Players.Length; ++i) {
             PlayerManager player = Players[i];
+
             float hue = colorSeed + (i * (1f / Players.Length));
             Color color = Color.HSVToRGB(hue, 0.7f, 0.7f);
+
             GameObject car = Instantiate(Car, player.SpawnPoint.position, player.SpawnPoint.rotation);
+
             player.Setup(i + 1, color, car);
         }
     }
@@ -64,7 +68,22 @@ public class GameManager : MonoBehaviour {
     {
         MessageText.text = $@"<size=7>post rock racing</size>
 <size=5>press any button</size>";
-        yield return new WaitForSeconds(3f);
+
+        yield return new WaitUntil(() => (
+            Input.GetAxis("LeftStickX1") != 0f ||
+            Input.GetAxis("LeftTrigger1") != 0f ||
+            Input.GetButton("LeftBumper1") ||
+            Input.GetAxis("RightStickY1") != 0f ||
+            Input.GetAxis("RightStickX1") != 0f ||
+            Input.GetAxis("RightTrigger1") != 0f
+        ) || (
+            Input.GetAxis("LeftStickX2") != 0f ||
+            Input.GetAxis("LeftTrigger2") != 0f ||
+            Input.GetButton("LeftBumper2") ||
+            Input.GetAxis("RightStickY2") != 0f ||
+            Input.GetAxis("RightStickX2") != 0f ||
+            Input.GetAxis("RightTrigger2") != 0f
+        ));
     }
 
     IEnumerator Play()
