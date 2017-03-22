@@ -3,7 +3,7 @@
 [RequireComponent(typeof (CameraState))]
 public class CameraController : MonoBehaviour {
 
-	[SerializeField] private Transform[] TargetTransforms = new Transform[2];
+	[HideInInspector] public Transform[] TargetTransforms = new Transform[2];
 
 	private Camera MainCamera;
 	private CameraState cameraState;
