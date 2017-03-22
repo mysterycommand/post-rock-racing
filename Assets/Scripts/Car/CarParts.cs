@@ -31,6 +31,13 @@ public class CarParts : MonoBehaviour {
 	[SerializeField] public GameObject BulletGameObject;
 	[SerializeField] public Transform BulletSpawnTransform;
 
+	[SpaceAttribute(8f)]
+	[HeaderAttribute("Audio:")]
+	[SpaceAttribute(2f)]
+	[SerializeField] public AudioSource EngineSource;
+	[SerializeField] public AudioSource FireSource;
+	[SerializeField] public AudioSource CollideSource;
+
 	/**
 	 * Rigidbodies 2D:
 	 */
