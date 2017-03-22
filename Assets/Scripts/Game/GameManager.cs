@@ -66,7 +66,12 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator Start()
     {
-        MessageText.text = $@"<size=7>post rock racing</size>
+        foreach (PlayerManager player in Players) {
+            player.CarInstance.GetComponent<CarController>().enabled = false;
+        }
+
+        MessageText.text = $@"<size=7>post rock</size>
+<size=7>demolition derby</size>
 <size=5>press any button</size>";
 
         yield return new WaitUntil(() => (
@@ -88,15 +93,59 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator Play()
     {
+        foreach (PlayerManager player in Players) {
+            player.CarInstance.GetComponent<CarController>().enabled = true;
+        }
+
         MessageText.text = string.Empty;
-        yield return new WaitForSeconds(3f);
+
+        while (MoreThanOneCar()) {
+            yield return null;
+        }
     }
 
     IEnumerator End()
     {
-        MessageText.text = $@"
-<size=8>player {1} wins</size>";
-        yield return new WaitForSeconds(3f);
+        Winner = null;
+        Winner = GetWinner();
+
+        if (Winner != null) {
+            string playerColor = ColorUtility.ToHtmlStringRGB(Winner.PlayerColor);
+            MessageText.text = $@"
+<size=8><color=#{playerColor}>player {Winner.PlayerNumber}</color> wins</size>";
+        } else {
+            MessageText.text = $@"
+<size=8>it was a tie</size>";
+        }
+
+        yield return new WaitForSeconds(5f);
+    }
+
+    private bool MoreThanOneCar() {
+        int numActiveCars = 0;
+
+        foreach (PlayerManager player in Players) {
+            if (!player.CarInstance.activeSelf) {
+                continue;
+            }
+
+            numActiveCars++;
+        }
+
+        return numActiveCars > 1;
+    }
+
+    private PlayerManager GetWinner()
+    {
+        foreach (PlayerManager player in Players) {
+            if (!player.CarInstance.activeSelf) {
+                continue;
+            }
+
+            return player;
+        }
+
+        return null;
     }
 
 }
